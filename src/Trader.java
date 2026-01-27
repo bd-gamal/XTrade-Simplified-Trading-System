@@ -18,11 +18,22 @@ public class Trader extends Person {
         return balance;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void deposit(double amount) {
+        this.balance += amount;
     }
 
-    public void updateBalance(double balance) {
+    public void withdraw(double amount) throws Exception {
+        if (balance < amount) throw new Exception("Insufficient balance");{
+            this.balance -= amount;
+        }
+    }
 
+    public Portfolio<Asset> getPortfolio() {
+        return portfolio;
+    }
+
+    @Override
+    public String toString() {
+        return "Trader: " + getName() + " | Solde: " + String.format("%.2f", balance) + "$";
     }
 }
