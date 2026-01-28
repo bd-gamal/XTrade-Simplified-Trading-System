@@ -32,8 +32,7 @@ public class Trader extends Person {
         return portfolio;
     }
 
-    @Override
     public String toString() {
-        return "Trader: " + getName() + " | Solde: " + String.format("%.2f", balance) + "$";
+        return "Trader: " + getName() + " | Balance: " + String.format("%.2f", balance) + "$";
     }
 }
