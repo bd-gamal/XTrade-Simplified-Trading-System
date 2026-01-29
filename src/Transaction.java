@@ -1,7 +1,7 @@
 import java.time.LocalDateTime;
 
 public class Transaction {
-    public enum TransactionType { BUY, SELL }
+    public enum TransactionType { PURSHASE, SALE }
     private TransactionType type;
     private Asset asset;
     private double quantity;
