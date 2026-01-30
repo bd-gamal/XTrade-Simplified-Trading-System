@@ -55,5 +55,10 @@ public class Market {
         if (trader == null || asset == null) throw new Exception("Trader or Asset not found !");
 
         trader.getPortfolio().removePosition(asset.getCode(), quantity);
+
+        double totalGain = asset.getPrice() * quantity;
+
+
+        transactions.
     }
 }

@@ -1,1 +1,1 @@
-![chatgpt-image-26-janv-2026-09-56-22-69772c4709435106130329.webp](chatgpt-image-26-janv-2026-09-56-22-69772c4709435106130329.webp)
+![XTrade.jpg](XTrade.jpg)
