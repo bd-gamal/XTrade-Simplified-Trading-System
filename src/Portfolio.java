@@ -12,16 +12,16 @@ public class Portfolio<T extends Asset> {
         if (!positions.containsKey(assetCode)) {
             throw new Exception("Asset not found in the portfolio");
         }
-        double curreentQty = positions.get(assetCode);
-        if (curreentQty < quantity) {
+        double currentQty = positions.get(assetCode);
+        if (currentQty < quantity) {
             throw new Exception("Insufficient quantity to sell");
         }
 
-        double newQty = curreentQty - quantity;
+        double newQty = currentQty - quantity;
         if (newQty == 0) {
             positions.remove(assetCode);
         } else {
-            positions.put(assetCode, quantity);
+            positions.put(assetCode, newQty);
         }
     }
 

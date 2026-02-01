@@ -95,7 +95,7 @@ public class Main {
                         if (typeChoice == 1) {
                             System.out.println("Company's name : ");
                             String company = scanner.nextLine();
-                            market.addAsset(new Stock(code, company, price, label));
+                            market.addAsset(new Stock(code, label, price, company));
                             System.out.println("Stock succesfully added!");
                         } else if (typeChoice == 2) {
                             market.addAsset(new CryptoCurrency(code, label, price));

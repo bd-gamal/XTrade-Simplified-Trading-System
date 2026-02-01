@@ -42,7 +42,7 @@ public class Market {
         trader.withdraw(totalCost);
         trader.getPortfolio().addPosition(asset.getCode(), quantity);
 
-        transactions.add(new Transaction(Transaction.TransactionType.PURSHASE, asset, quantity, asset.getPrice()));
+        transactions.add(new Transaction(Transaction.TransactionType.PURCHASE, asset, quantity, asset.getPrice()));
         System.out.println("Successful purchase !");
     }
 

@@ -1,14 +1,14 @@
 import java.time.LocalDateTime;
 
 public class Transaction {
-    public enum TransactionType { PURSHASE, SALE }
+    public enum TransactionType { PURCHASE, SALE }
     private TransactionType type;
     private Asset asset;
     private double quantity;
     private double priceAtTransaction;
     private LocalDateTime date;
 
-    public Transaction(TransactionType type, Asset asset, double quantity, double priceAtTransaction, LocalDateTime date) {
+    public Transaction(TransactionType type, Asset asset, double quantity, double priceAtTransaction) {
         this.type = type;
         this.asset = asset;
         this.quantity = quantity;

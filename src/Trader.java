@@ -3,11 +3,11 @@ public class Trader extends Person {
     private double balance;
     private Portfolio<Asset> portfolio;
 
-    public Trader(String name, String id, double balance, Portfolio<Asset> portfolio) {
+    public Trader(String name, String id, double balance) {
         super(name);
         this.id = id;
         this.balance = balance;
-        this.portfolio = portfolio;
+        this.portfolio = new Portfolio<>();
     }
 
     public String getId() {
