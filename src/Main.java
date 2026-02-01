@@ -1,3 +1,4 @@
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -14,7 +15,7 @@ public class Main {
             System.out.println("5. Export History");
             System.out.println("6. [ADMIN] Add a new Asset in Market");
             System.out.println("7. [ADMIN] Add a new Trader");
-            System.out.println("0. ");
+            System.out.println("0. Exit");
             System.out.print("Your Choice : ");
 
             int choice = -1;
@@ -40,10 +41,106 @@ public class Main {
                         String buyAsset = scanner.nextLine();
                         System.out.println("Quantity : ");
                         double buyQty = scanner.nextDouble();
-                        market.buyAsset();
-                }
-            } catch ()
-        }
+                        market.buyAsset(buyID, buyAsset, buyQty);
+                        break;
 
+                    case 3:
+                        System.out.println("Trader ID : ");
+                        String sellID = scanner.nextLine();
+                        System.out.println("Asset code to sell : ");
+                        String sellAsset = scanner.nextLine();
+                        System.out.println("Quantity : ");
+                        double sellQty = scanner.nextDouble();
+                        market.sellAsset(sellID, sellAsset, sellQty);
+                        break;
+
+                    case 4:
+                        System.out.println("Trader ID : ");
+                        String tradeID = scanner.nextLine();
+                        Trader t = market.findTraderById(tradeID);
+                        if (t != null) {
+                            System.out.println(t);
+                            System.out.println("---- PORTFOLIO ----");
+                            if (t.getPortfolio().getPositions().isEmpty()) {
+                                System.out.println("No Portfolio Found!");
+                            } else {
+                                for (Map.Entry<String, Double> entry : t.getPortfolio().getPositions().entrySet()) {
+                                    System.out.println("- " + entry.getKey() + ": " + entry.getValue());
+                                }
+                            }
+                        } else {
+                            System.out.println("Trader not found. Create a trader first");
+                        }
+                        break;
+
+                    case 5:
+                        market.exportTransactionCSV();
+                        break;
+
+                    case 6:
+                        System.out.println("---- ADD ASSET TO MARKET ----");
+                        System.out.println("Type : 1. Stock | 2. CryptoCurrency");
+                        System.out.print("Choice : ");
+                        int typeChoice = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.println("Code (e.g BTC) : ");
+                        String code = scanner.nextLine().toUpperCase();
+                        System.out.println("Name (Label) : ");
+                        String label = scanner.nextLine();
+                        System.out.println("Price : ");
+                        double price = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        if (typeChoice == 1) {
+                            System.out.println("Company's name : ");
+                            String company = scanner.nextLine();
+                            market.addAsset(new Stock(code, company, price, label));
+                            System.out.println("Stock succesfully added!");
+                        } else if (typeChoice == 2) {
+                            market.addAsset(new CryptoCurrency(code, label, price));
+                            System.out.println("Crypto succesfully added!");
+                        } else {
+                            System.out.println("Invalid type !");
+                        }
+                        break;
+
+                    case 7:
+                        System.out.println("---- ADD TRADER TO MARKET ---- ");
+                        System.out.print("Unique ID : ");
+                        String newID = scanner.nextLine();
+
+                        if(market.findTraderById(newID) != null) {
+                            System.out.println("Error : Trader already exists!");
+                            break;
+                        }
+
+                        System.out.print("Trader name : ");
+                        String newName = scanner.nextLine();
+                        System.out.print("Initial Balance : ");
+                        double initialBalance = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        if(initialBalance < 0) {
+                            System.out.println("Error : Initial Balance can't be negative!");
+                        } else {
+                            market.addTrader(new Trader(newID, newName, initialBalance));
+                            System.out.println("Trader " + newName + " succesfully added !");
+                        }
+                        break;
+
+                    case 0:
+                        System.out.println("Closing the application ...");
+                        scanner.close();
+                        return;
+
+                    default:
+                        System.out.println("Invalid choice !");
+                }
+            } catch (Exception e) {
+                System.out.println("ERROR : " + e.getMessage());
+                scanner.nextLine();
+            }
+        }
     }
 }

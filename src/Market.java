@@ -57,8 +57,13 @@ public class Market {
         trader.getPortfolio().removePosition(asset.getCode(), quantity);
 
         double totalGain = asset.getPrice() * quantity;
+        trader.deposit(totalGain);
 
+        transactions.add(new Transaction(Transaction.TransactionType.SALE, asset, quantity, asset.getPrice()));
+        System.out.println("Successful sale !");
+    }
 
-        transactions.
+    public void exportTransactionCSV() {
+
     }
 }
