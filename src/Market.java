@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Comparator;
 
 public class Market {
     private List<Asset> marketAssets = new ArrayList<>();
@@ -42,7 +46,7 @@ public class Market {
         trader.withdraw(totalCost);
         trader.getPortfolio().addPosition(asset.getCode(), quantity);
 
-        transactions.add(new Transaction(Transaction.TransactionType.PURCHASE, asset, quantity, asset.getPrice()));
+        transactions.add(new Transaction(traderId, Transaction.TransactionType.PURCHASE, asset, quantity, asset.getPrice()));
         System.out.println("Successful purchase !");
     }
 
@@ -59,7 +63,7 @@ public class Market {
         double totalGain = asset.getPrice() * quantity;
         trader.deposit(totalGain);
 
-        transactions.add(new Transaction(Transaction.TransactionType.SALE, asset, quantity, asset.getPrice()));
+        transactions.add(new Transaction(traderId, Transaction.TransactionType.SALE, asset, quantity, asset.getPrice()));
         System.out.println("Successful sale !");
     }
 
@@ -67,5 +71,16 @@ public class Market {
         for (Transaction trans : transactions) {
             System.out.println(trans);
         }
+    }
+
+
+    // ==================================================
+    //          2nd PART : ANALYZING WITH STREAMS
+    // ==================================================
+
+
+    public void displayTransactionsByTrader(String traderId) {
+        System.out.println("----- TRANSACTIONS OF TRADER " + traderId + " -----");
+        transactions.stream().filter(t -> t.getTraderID().equals(traderId)).forEach(System.out::println);
     }
 }
