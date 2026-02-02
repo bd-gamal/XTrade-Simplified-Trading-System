@@ -63,7 +63,9 @@ public class Market {
         System.out.println("Successful sale !");
     }
 
-    public void exportTransactionCSV() {
-
+    public void displayTransactions() {
+        for (Transaction trans : transactions) {
+            System.out.println(trans);
+        }
     }
 }

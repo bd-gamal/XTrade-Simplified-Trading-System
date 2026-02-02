@@ -12,7 +12,7 @@ public class Main {
             System.out.println("2. Buy an Asset");
             System.out.println("3. Sell an Asset");
             System.out.println("4. Display my Portfolio");
-            System.out.println("5. Export History");
+            System.out.println("5. Display History");
             System.out.println("6. [ADMIN] Add a new Asset in Market");
             System.out.println("7. [ADMIN] Add a new Trader");
             System.out.println("0. Exit");
@@ -35,27 +35,27 @@ public class Main {
                         break;
 
                     case 2:
-                        System.out.println("Trader ID : ");
+                        System.out.print("Trader ID : ");
                         String buyID = scanner.nextLine();
-                        System.out.println("Asset code to buy : ");
+                        System.out.print("Asset code to buy : ");
                         String buyAsset = scanner.nextLine();
-                        System.out.println("Quantity : ");
+                        System.out.print("Quantity : ");
                         double buyQty = scanner.nextDouble();
                         market.buyAsset(buyID, buyAsset, buyQty);
                         break;
 
                     case 3:
-                        System.out.println("Trader ID : ");
+                        System.out.print("Trader ID : ");
                         String sellID = scanner.nextLine();
-                        System.out.println("Asset code to sell : ");
+                        System.out.print("Asset code to sell : ");
                         String sellAsset = scanner.nextLine();
-                        System.out.println("Quantity : ");
+                        System.out.print("Quantity : ");
                         double sellQty = scanner.nextDouble();
                         market.sellAsset(sellID, sellAsset, sellQty);
                         break;
 
                     case 4:
-                        System.out.println("Trader ID : ");
+                        System.out.print("Trader ID : ");
                         String tradeID = scanner.nextLine();
                         Trader t = market.findTraderById(tradeID);
                         if (t != null) {
@@ -74,7 +74,7 @@ public class Main {
                         break;
 
                     case 5:
-                        market.exportTransactionCSV();
+                        market.displayTransactions();
                         break;
 
                     case 6:
@@ -84,16 +84,16 @@ public class Main {
                         int typeChoice = scanner.nextInt();
                         scanner.nextLine();
 
-                        System.out.println("Code (e.g BTC) : ");
+                        System.out.print("Code (e.g BTC) : ");
                         String code = scanner.nextLine().toUpperCase();
-                        System.out.println("Name (Label) : ");
+                        System.out.print("Name (Label) : ");
                         String label = scanner.nextLine();
-                        System.out.println("Price : ");
+                        System.out.print("Price : ");
                         double price = scanner.nextDouble();
                         scanner.nextLine();
 
                         if (typeChoice == 1) {
-                            System.out.println("Company's name : ");
+                            System.out.print("Company's name : ");
                             String company = scanner.nextLine();
                             market.addAsset(new Stock(code, label, price, company));
                             System.out.println("Stock succesfully added!");
@@ -124,7 +124,7 @@ public class Main {
                         if(initialBalance < 0) {
                             System.out.println("Error : Initial Balance can't be negative!");
                         } else {
-                            market.addTrader(new Trader(newID, newName, initialBalance));
+                            market.addTrader(new Trader(newName, newID, initialBalance));
                             System.out.println("Trader " + newName + " succesfully added !");
                         }
                         break;
