@@ -1,9 +1,6 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
-import java.util.Map;
-import java.util.Comparator;
 
 public class Market {
     private List<Asset> marketAssets = new ArrayList<>();
@@ -73,6 +70,10 @@ public class Market {
         }
     }
 
+    public List<Transaction> function(double quantity) {
+        return transactions.stream().filter(t -> t.getQuantity() == quantity).toList();
+    }
+
 
     // ==================================================
     //          2nd PART : ANALYZING WITH STREAMS
@@ -82,5 +83,10 @@ public class Market {
     public void displayTransactionsByTrader(String traderId) {
         System.out.println("----- TRANSACTIONS OF TRADER " + traderId + " -----");
         transactions.stream().filter(t -> t.getTraderID().equals(traderId)).forEach(System.out::println);
+    }
+
+    public void filterTransactions(Transaction.TransactionType type, String assetCode, LocalDateTime startDate, LocalDateTime endTime) {
+        System.out.println("---- FILTERED TRANSACTION ----");
+        transactions.stream().filter(t -> type == null || t.getType() == type).filter(t -> assetCode == null || t.getAsset().getCode().equalsIgnoreCase(assetCode))
     }
 }
