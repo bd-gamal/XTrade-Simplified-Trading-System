@@ -15,6 +15,7 @@ public class Main {
             System.out.println("5. Display History");
             System.out.println("6. [ADMIN] Add a new Asset in Market");
             System.out.println("7. [ADMIN] Add a new Trader");
+            System.out.println("8. Market Analyze");
             System.out.println("0. Exit");
             System.out.print("Your Choice : ");
 
@@ -128,6 +129,16 @@ public class Main {
                             System.out.println("Trader " + newName + " succesfully added !");
                         }
                         break;
+
+                    case 8:
+                        System.out.println("---- MARKET ANALYZE ----");
+                        System.out.println("1. Trader History");
+                        System.out.println("2. Volume per Asset");
+                        System.out.println("3. Top Traders");
+                        System.out.println("4. Total Purchase/Sale Global");
+                        System.out.print("Choice : ");
+                        int analysisChoices = scanner.nextInt();
+                        scanner.nextLine();
 
                     case 0:
                         System.out.println("Closing the application ...");

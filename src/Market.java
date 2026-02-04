@@ -93,21 +93,35 @@ public class Market {
         transactions.stream().filter(t -> type == null || t.getType() == type).filter(t -> assetCode == null || t.getAsset().getCode().equalsIgnoreCase(assetCode)).filter(t-> startDate == null || t.getDate().isAfter(startDate)).filter(t-> t.getDate().isBefore(endDate)).forEach(System.out::println);
     }
 
-    public void displaySortTransactions(boolean sortedByAmount) {
+    public void sortedTransactions(boolean sortedByAmount) {
         System.out.println("---- SORTED TRANSACTION ----");
         transactions.stream().sorted(sortedByAmount ? Comparator.comparingDouble(t-> t.getQuantity() * t.getPriceAtTransaction()) : Comparator.comparing(Transaction::getDate)).forEach(System.out::println);
     }
 
-    public void displayVolumeByAsset() {
-        System.out.println("---- VOLUME BY ASSET ----");
-        Map<String, Double> volumeByAsset = transactions.stream().collect(Collectors.groupingBy(t-> t.getAsset().getCode(), Collectors.summingDouble(Transaction::getQuantity)));
-        volumeByAsset.forEach((k, v) -> System.out.println(k + " : " + v));
+    public void displayTotalVolumeByAsset() {
+        System.out.println("---- VOLUME (Quantity) PER ASSET ----");
+        Map<String, Double> volume = transactions.stream().collect(Collectors.groupingBy(t-> t.getAsset().getCode(), Collectors.summingDouble(Transaction::getQuantity)));
+        volume.forEach((k, v) -> System.out.println(k + " : " + v));
     }
 
     public void displayTopTraders(int n) {
         System.out.println("---- TOP " + n + "TRADERS ($) ----");
         transactions.stream().collect(Collectors.groupingBy(Transaction::getTraderID, Collectors.summingDouble(t -> t.getQuantity() * t.getPriceAtTransaction()))).entrySet().stream().sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue())).limit(n).forEach(e-> System.out.println("Trader " + e.getKey() + " : " + String.format("%.2f", e.getValue()) + "$"));
     }
+
+    public void displayMostTradedAssets() {
+        System.out.println("---- MOST TRADED ASSETS ----");
+        transactions.stream().collect(Collectors.groupingBy(t->t.getAsset().getCode(), Collectors.counting())).entrySet().stream().max(Map.Entry.comparingByValue()).ifPresent(e-> System.out.println("Top Asset " + e.getKey() + " ( " + e.getValue() + "transactions )"));
+    }
+
+    public void displayTotalBuySell() {
+        double totalBuy = transactions.stream().filter(t-> t.getType() == Transaction.TransactionType.PURCHASE).mapToDouble(t-> t.getQuantity() * t.getPriceAtTransaction()).sum();
+        double totaLSell = transactions.stream().filter(t-> t.getType() == Transaction.TransactionType.SALE).mapToDouble(t-> t.getQuantity() * t.getPriceAtTransaction()).sum();
+
+        System.out.println("TOTAL PURCHASES : " + totalBuy + " $");
+        System.out.println("TOTAL SALES : " + totaLSell + " $");
+    }
+
 
 
 }
