@@ -1,6 +1,9 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Market {
     private List<Asset> marketAssets = new ArrayList<>();
@@ -85,8 +88,26 @@ public class Market {
         transactions.stream().filter(t -> t.getTraderID().equals(traderId)).forEach(System.out::println);
     }
 
-    public void filterTransactions(Transaction.TransactionType type, String assetCode, LocalDateTime startDate, LocalDateTime endTime) {
+    public void filterTransactions(Transaction.TransactionType type, String assetCode, LocalDateTime startDate, LocalDateTime endDate) {
         System.out.println("---- FILTERED TRANSACTION ----");
-        transactions.stream().filter(t -> type == null || t.getType() == type).filter(t -> assetCode == null || t.getAsset().getCode().equalsIgnoreCase(assetCode))
+        transactions.stream().filter(t -> type == null || t.getType() == type).filter(t -> assetCode == null || t.getAsset().getCode().equalsIgnoreCase(assetCode)).filter(t-> startDate == null || t.getDate().isAfter(startDate)).filter(t-> t.getDate().isBefore(endDate)).forEach(System.out::println);
     }
+
+    public void displaySortTransactions(boolean sortedByAmount) {
+        System.out.println("---- SORTED TRANSACTION ----");
+        transactions.stream().sorted(sortedByAmount ? Comparator.comparingDouble(t-> t.getQuantity() * t.getPriceAtTransaction()) : Comparator.comparing(Transaction::getDate)).forEach(System.out::println);
+    }
+
+    public void displayVolumeByAsset() {
+        System.out.println("---- VOLUME BY ASSET ----");
+        Map<String, Double> volumeByAsset = transactions.stream().collect(Collectors.groupingBy(t-> t.getAsset().getCode(), Collectors.summingDouble(Transaction::getQuantity)));
+        volumeByAsset.forEach((k, v) -> System.out.println(k + " : " + v));
+    }
+
+    public void displayTopTraders(int n) {
+        System.out.println("---- TOP " + n + "TRADERS ($) ----");
+        transactions.stream().collect(Collectors.groupingBy(Transaction::getTraderID, Collectors.summingDouble(t -> t.getQuantity() * t.getPriceAtTransaction()))).entrySet().stream().sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue())).limit(n).forEach(e-> System.out.println("Trader " + e.getKey() + " : " + String.format("%.2f", e.getValue()) + "$"));
+    }
+
+
 }
