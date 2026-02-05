@@ -91,15 +91,18 @@ public class Main {
                         String label = scanner.nextLine();
                         System.out.print("Price : ");
                         double price = scanner.nextDouble();
+
+                        System.out.print("Quantity (Supply) : ");
+                        double quantity = scanner.nextDouble();
                         scanner.nextLine();
 
                         if (typeChoice == 1) {
                             System.out.print("Company's name : ");
                             String company = scanner.nextLine();
-                            market.addAsset(new Stock(code, label, price, company));
+                            market.addAsset(new Stock(code, label, price, quantity, company));
                             System.out.println("Stock succesfully added!");
                         } else if (typeChoice == 2) {
-                            market.addAsset(new CryptoCurrency(code, label, price));
+                            market.addAsset(new CryptoCurrency(code, label, price, quantity));
                             System.out.println("Crypto succesfully added!");
                         } else {
                             System.out.println("Invalid type !");
@@ -133,12 +136,72 @@ public class Main {
                     case 8:
                         System.out.println("---- MARKET ANALYZE ----");
                         System.out.println("1. Trader History");
-                        System.out.println("2. Volume per Asset");
-                        System.out.println("3. Top Traders");
-                        System.out.println("4. Total Purchase/Sale Global");
-                        System.out.print("Choice : ");
+                        System.out.println("2. Filter Transactions");
+                        System.out.println("3. Sort (per Amount");
+                        System.out.println("4. Volume per Asset");
+                        System.out.println("5. Market Total Amount ($)");
+                        System.out.println("6. Trader Volume ($)");
+                        System.out.println("7. Order number of a Trader");
+                        System.out.println("8. Top Traders");
+                        System.out.println("9. Most Traded Asset");
+                        System.out.println("10. Total Buy vs Sell");
+                        System.out.println("0. Return to Main Menu");
+                        System.out.print("Analyze Choice : ");
                         int analysisChoices = scanner.nextInt();
                         scanner.nextLine();
+
+                        switch (analysisChoices) {
+                            case 1:
+                                System.out.print("Trader ID : ");
+                                market.displayTransactionsByTrader(scanner.nextLine());
+                                break;
+
+                            case 2:
+                                market.filterTransactions(Transaction.TransactionType.PURCHASE, null, null, null);
+                                break;
+
+                            case 3:
+                                market.sortedTransactions(true);
+                                break;
+
+                            case 4:
+                                market.displayVolumePerAsset();
+                                break;
+
+                            case 5:
+                                market.displayTotalMarketValue();
+                                break;
+
+                            case 6:
+                                System.out.print("Trader ID : ");
+                                market.displayTraderVolume(scanner.nextLine());
+                                break;
+
+                            case 7:
+                                System.out.println("Trader ID : ");
+                                market.displayTraderOrderCount(scanner.nextLine());
+                                break;
+
+                            case 8:
+                                market.displayTopTraders(3);
+                                break;
+
+                            case 9:
+                                market.displayMostTradedAssets();
+                                break;
+
+                            case 10:
+                                market.displayBuySellSplitted();
+                                break;
+
+                            case 0:
+                                System.out.println("Returning to Main Menu ...");
+                                break;
+
+                            default:
+                                System.out.println("Invalid Choice !");
+                        }
+                        break;
 
                     case 0:
                         System.out.println("Closing the application ...");
