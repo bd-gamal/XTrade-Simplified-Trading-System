@@ -105,13 +105,13 @@ public class Market {
     }
 
     public void displayTopTraders(int n) {
-        System.out.println("---- TOP " + n + "TRADERS (per Volume $) ----");
+        System.out.println("---- TOP " + n + " TRADERS (per Volume $) ----");
         transactions.stream().collect(Collectors.groupingBy(Transaction::getTraderID, Collectors.summingDouble(t -> t.getQuantity() * t.getPriceAtTransaction()))).entrySet().stream().sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue())).limit(n).forEach(e-> System.out.println("Trader " + e.getKey() + " : " + String.format("%.2f", e.getValue()) + "$"));
     }
 
     public void displayTotalMarketValue() {
         double total = transactions.stream().mapToDouble(t-> t.getQuantity() * t.getPriceAtTransaction()).sum();
-        System.out.println("---- Total Amount of Market : "+ String.format("%.2f", total) + " $ ----");
+        System.out.println("---- Total Amount of Market : " + String.format("%.2f", total) + " $ ----");
     }
 
     public void displayTraderVolume(String traderId) {
@@ -126,10 +126,10 @@ public class Market {
 
     public void displayMostTradedAssets() {
         System.out.println("---- MOST TRADED ASSETS ----");
-        transactions.stream().collect(Collectors.groupingBy(t->t.getAsset().getCode(), Collectors.counting())).entrySet().stream().max(Map.Entry.comparingByValue()).ifPresent(e-> System.out.println("Top Asset " + e.getKey() + " ( " + e.getValue() + "transactions )"));
+        transactions.stream().collect(Collectors.groupingBy(t->t.getAsset().getCode(), Collectors.counting())).entrySet().stream().max(Map.Entry.comparingByValue()).ifPresent(e-> System.out.println("Top Asset " + e.getKey() + " ( " + e.getValue() + " transactions )"));
     }
 
-    public void displayBuySellSplitted() {
+    public void displayBuySellSplit() {
         double totalBuy = transactions.stream().filter(t-> t.getType() == Transaction.TransactionType.PURCHASE).mapToDouble(t-> t.getQuantity() * t.getPriceAtTransaction()).sum();
         double totaLSell = transactions.stream().filter(t-> t.getType() == Transaction.TransactionType.SALE).mapToDouble(t-> t.getQuantity() * t.getPriceAtTransaction()).sum();
 

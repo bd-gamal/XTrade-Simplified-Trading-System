@@ -36,6 +36,6 @@ public abstract class Asset {
     }
 
     public String toString() {
-        return "Code : " + code + " | Label : " + label + " | Price : " + price + " $";
+        return "Code : " + code + " | Label : " + label + " | Price : " + price + " $ | Quantity : " + quantity;
     }
 }

@@ -85,7 +85,7 @@ public class Main {
                         int typeChoice = scanner.nextInt();
                         scanner.nextLine();
 
-                        System.out.print("Code (e.g BTC) : ");
+                        System.out.print("Code (e.g BTC, APLE) : ");
                         String code = scanner.nextLine().toUpperCase();
                         System.out.print("Name (Label) : ");
                         String label = scanner.nextLine();
@@ -134,6 +134,9 @@ public class Main {
                         break;
 
                     case 8:
+                        boolean analyzing = true;
+
+                    while (analyzing) {
                         System.out.println("---- MARKET ANALYZE ----");
                         System.out.println("1. Trader History");
                         System.out.println("2. Filter Transactions");
@@ -147,7 +150,15 @@ public class Main {
                         System.out.println("10. Total Buy vs Sell");
                         System.out.println("0. Return to Main Menu");
                         System.out.print("Analyze Choice : ");
-                        int analysisChoices = scanner.nextInt();
+
+                        int analysisChoices = -1;
+                        try {
+                            analysisChoices = scanner.nextInt();
+                        } catch (Exception e) {
+                            System.out.println("Invalid input !");
+                            scanner.nextLine();
+                            continue;
+                        }
                         scanner.nextLine();
 
                         switch (analysisChoices) {
@@ -178,7 +189,7 @@ public class Main {
                                 break;
 
                             case 7:
-                                System.out.println("Trader ID : ");
+                                System.out.print("Trader ID : ");
                                 market.displayTraderOrderCount(scanner.nextLine());
                                 break;
 
@@ -191,17 +202,19 @@ public class Main {
                                 break;
 
                             case 10:
-                                market.displayBuySellSplitted();
+                                market.displayBuySellSplit();
                                 break;
 
                             case 0:
+                                analyzing = false;
                                 System.out.println("Returning to Main Menu ...");
                                 break;
 
                             default:
                                 System.out.println("Invalid Choice !");
                         }
-                        break;
+                    }
+                    break;
 
                     case 0:
                         System.out.println("Closing the application ...");
